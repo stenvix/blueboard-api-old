@@ -1,0 +1,80 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.62
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Presentation", "4. Presentation", "{5BCDC0EB-B237-4A0D-84BF-7365768480F3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Core", "1. Core", "{E93847AA-D39A-42FF-A9BE-36C61EE53945}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Infrastructure", "2. Infrastructure", "{61C2AA28-DC39-441D-BF67-B2D987E26091}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Application", "3. Application", "{BC44FA98-1F0D-4B88-B53B-C19F14BDA46F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueBoard.API", "BlueBoard.API\BlueBoard.API.csproj", "{FCA918FB-1D7D-4CFD-B11B-FE60BA011E52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueBoard.Domain", "BlueBoard.Domain\BlueBoard.Domain.csproj", "{70B702A3-C504-429B-9FFD-2E62CB25467E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueBoard.Persistence", "BlueBoard.Persistence\BlueBoard.Persistence.csproj", "{AA4D5DCF-F6B1-4B97-B2CB-5222F6274B46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueBoard.Infrastructure", "BlueBoard.Infrastructure\BlueBoard.Infrastructure.csproj", "{EE89F01E-BE4B-4DDB-8666-3B2429DB441C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Tests", "5. Tests", "{A7FCE62C-A2F1-4C16-A843-F894B6681970}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueBoard.Application", "BlueBoard.Application\BlueBoard.Application.csproj", "{02607983-58CE-465A-B550-18CEF206D477}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueBoard.Common", "BlueBoard.Common\BlueBoard.Common.csproj", "{B2A9CC2B-4C6C-402D-B101-5DB417E686B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueBoard.Application.Tests", "BlueBoard.Application.Tests\BlueBoard.Application.Tests.csproj", "{928DC62A-47BD-41DC-A8E3-87A491719473}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FCA918FB-1D7D-4CFD-B11B-FE60BA011E52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCA918FB-1D7D-4CFD-B11B-FE60BA011E52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCA918FB-1D7D-4CFD-B11B-FE60BA011E52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCA918FB-1D7D-4CFD-B11B-FE60BA011E52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70B702A3-C504-429B-9FFD-2E62CB25467E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70B702A3-C504-429B-9FFD-2E62CB25467E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70B702A3-C504-429B-9FFD-2E62CB25467E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70B702A3-C504-429B-9FFD-2E62CB25467E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA4D5DCF-F6B1-4B97-B2CB-5222F6274B46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA4D5DCF-F6B1-4B97-B2CB-5222F6274B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA4D5DCF-F6B1-4B97-B2CB-5222F6274B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA4D5DCF-F6B1-4B97-B2CB-5222F6274B46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE89F01E-BE4B-4DDB-8666-3B2429DB441C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE89F01E-BE4B-4DDB-8666-3B2429DB441C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE89F01E-BE4B-4DDB-8666-3B2429DB441C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE89F01E-BE4B-4DDB-8666-3B2429DB441C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02607983-58CE-465A-B550-18CEF206D477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02607983-58CE-465A-B550-18CEF206D477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02607983-58CE-465A-B550-18CEF206D477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02607983-58CE-465A-B550-18CEF206D477}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2A9CC2B-4C6C-402D-B101-5DB417E686B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2A9CC2B-4C6C-402D-B101-5DB417E686B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2A9CC2B-4C6C-402D-B101-5DB417E686B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2A9CC2B-4C6C-402D-B101-5DB417E686B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{928DC62A-47BD-41DC-A8E3-87A491719473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{928DC62A-47BD-41DC-A8E3-87A491719473}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{928DC62A-47BD-41DC-A8E3-87A491719473}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{928DC62A-47BD-41DC-A8E3-87A491719473}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FCA918FB-1D7D-4CFD-B11B-FE60BA011E52} = {5BCDC0EB-B237-4A0D-84BF-7365768480F3}
+		{70B702A3-C504-429B-9FFD-2E62CB25467E} = {E93847AA-D39A-42FF-A9BE-36C61EE53945}
+		{AA4D5DCF-F6B1-4B97-B2CB-5222F6274B46} = {61C2AA28-DC39-441D-BF67-B2D987E26091}
+		{EE89F01E-BE4B-4DDB-8666-3B2429DB441C} = {61C2AA28-DC39-441D-BF67-B2D987E26091}
+		{02607983-58CE-465A-B550-18CEF206D477} = {BC44FA98-1F0D-4B88-B53B-C19F14BDA46F}
+		{B2A9CC2B-4C6C-402D-B101-5DB417E686B9} = {E93847AA-D39A-42FF-A9BE-36C61EE53945}
+		{928DC62A-47BD-41DC-A8E3-87A491719473} = {A7FCE62C-A2F1-4C16-A843-F894B6681970}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {139DBF25-E527-4C13-995A-DDC92C89F8E4}
+	EndGlobalSection
+EndGlobal
