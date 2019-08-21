@@ -11,11 +11,6 @@
         Reader = 0,
 
         /// <summary>
-        /// Trip owner
-        /// </summary>
-        Owner = 2,
-
-        /// <summary>
         /// Trip editor
         /// </summary>
         Editor = 1

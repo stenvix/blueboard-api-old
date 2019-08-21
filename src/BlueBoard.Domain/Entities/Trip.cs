@@ -35,6 +35,16 @@ namespace BlueBoard.Domain
         public TripStatus Status { get; set; }
 
         /// <summary>
+        /// Gets or sets trip creator id
+        /// </summary>
+        public Guid CreatedById { get; set; }
+
+        /// <summary>
+        /// Gets or sets trip creator
+        /// </summary>
+        public User CreatedBy { get; set; }
+
+        /// <summary>
         /// Gets or sets trip countries
         /// </summary>
         public ICollection<TripCountry> Countries { get; set; }
