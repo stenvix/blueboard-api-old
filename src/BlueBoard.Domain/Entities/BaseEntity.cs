@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace BlueBoard.Persistence
+namespace BlueBoard.Domain
 {
     /// <summary>
     /// Base class for entities
     /// </summary>
-    public abstract class BaseEntity
+    public abstract class BaseEntity : IEntity
     {
         /// <summary>
         /// Gets or sets entity id
