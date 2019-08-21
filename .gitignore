@@ -331,3 +331,6 @@ ASALocalRun/
 
 # Resharper configuration files
 *.DotSettings
+
+# Development project settings
+appsettings.*.json
