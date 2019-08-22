@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.IO;
+using Serilog;
 
 namespace BlueBoard.API
 {
@@ -29,7 +30,11 @@ namespace BlueBoard.API
 
         private static void LoggingSetup(WebHostBuilderContext context, ILoggingBuilder loggingBuilder)
         {
-            loggingBuilder.AddConsole();
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
+            loggingBuilder.AddSerilog();
         }
     }
 }
