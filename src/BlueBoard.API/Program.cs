@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace BlueBoard.API
 {
@@ -11,7 +13,23 @@ namespace BlueBoard.API
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            new WebHostBuilder()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .ConfigureAppConfiguration((context, builder) =>
+                    {
+                        builder.SetBasePath(Directory.GetCurrentDirectory());
+                        builder.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                        builder.AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json",
+                            optional: true, reloadOnChange: true);
+                        builder.AddEnvironmentVariables();
+                    })
+                .UseStartup<Startup>()
+                .ConfigureLogging(LoggingSetup)
+                .UseKestrel();
+
+        private static void LoggingSetup(WebHostBuilderContext context, ILoggingBuilder loggingBuilder)
+        {
+            loggingBuilder.AddConsole();
+        }
     }
 }
