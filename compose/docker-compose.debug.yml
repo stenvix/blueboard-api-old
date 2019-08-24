@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  db:
+    image: 'postgres:latest'
+    container_name: 'postgres'
+    ports: 
+      - 5432:5432
+    volumes:
+      - blueboard-data:/var/lib/postgresql/data
+    env_file:
+      - ../src/BlueBoard.API/debug.env
+
+volumes:
+  blueboard-data:
+    driver: local
