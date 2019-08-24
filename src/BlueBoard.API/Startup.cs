@@ -52,6 +52,7 @@ namespace BlueBoard.API
             app.UseSwaggerUI(config =>
             {
                 config.SwaggerEndpoint("/swagger/v1/swagger.json", "BlueBoard API v1");
+                config.RoutePrefix = string.Empty;
             });
 
             app.UseMvc();
