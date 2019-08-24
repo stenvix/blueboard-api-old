@@ -9,6 +9,11 @@ using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 using System.Reflection;
+using BlueBoard.Application;
+using BlueBoard.Application.Infrastructure;
+using BlueBoard.Application.Users.Commands.SignIn;
+using FluentValidation;
+using MediatR;
 
 namespace BlueBoard.API
 {
@@ -29,6 +34,10 @@ namespace BlueBoard.API
                 {
                     config.UseNpgsql(Configuration.GetConnectionString("Default"));
                 });
+            var applicationAssembly = typeof(BaseHandler<,>).Assembly;
+            services.AddMediatR(applicationAssembly);
+            services.AddValidatorsFromAssembly(applicationAssembly);
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSwaggerGen(config =>
