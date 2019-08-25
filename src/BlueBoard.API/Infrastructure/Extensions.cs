@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using System;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading.Tasks;
 using BlueBoard.API.Options;
 using BlueBoard.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -46,8 +49,28 @@ namespace BlueBoard.API.Infrastructure
             {
                 using (var context = scope.ServiceProvider.GetService<BlueBoardContext>())
                 {
+                    WaitForDatabase(context);
                     var migrations = context.Database.GetPendingMigrations();
                     if (migrations.Any()) context.Database.Migrate();
+                }
+            }
+        }
+
+        private static void WaitForDatabase(BlueBoardContext context, int retryCount = 60)
+        {
+            int retry = 0;
+            var connection = context.Database.GetDbConnection();
+            while (retry < retryCount)
+            {
+                try
+                {
+                    connection.Open();
+                    return;
+                }
+                catch (SocketException e)
+                {
+                    retry++;
+                    Task.Delay(500);
                 }
             }
         }
