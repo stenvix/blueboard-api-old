@@ -1,6 +1,10 @@
 ﻿using System.Text;
 using BlueBoard.API.Options;
+using BlueBoard.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -34,6 +38,18 @@ namespace BlueBoard.API.Infrastructure
                         ValidateLifetime = options.ValidateLifetime
                     };
                 });
+        }
+
+        public static void RunMigrations(this IApplicationBuilder builder)
+        {
+            using (var scope = builder.ApplicationServices.CreateScope())
+            {
+                using (var context = scope.ServiceProvider.GetService<BlueBoardContext>())
+                {
+                    var migrations = context.Database.GetPendingMigrations();
+                    if (migrations.Any()) context.Database.Migrate();
+                }
+            }
         }
     }
 }

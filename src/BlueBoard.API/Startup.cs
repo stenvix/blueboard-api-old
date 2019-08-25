@@ -68,6 +68,7 @@ namespace BlueBoard.API
             });
 
             app.UseMvc();
+            app.RunMigrations();
         }
     }
 }
