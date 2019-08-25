@@ -6,6 +6,7 @@ using BlueBoard.Persistence.Repositories;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
+using BlueBoard.Common.Enums;
 
 namespace BlueBoard.Application.Users.Commands.SignUp
 {
@@ -29,7 +30,7 @@ namespace BlueBoard.Application.Users.Commands.SignUp
             var existed = await _userRepository.GetByEmailAsync(request.Email);
             if (existed != null) throw new ValidationException(Codes.EmailInUse);
             var passwordHash = _authHandler.GetPasswordHash(request.Password);
-            var user = new User { Email = request.Email, Password = passwordHash };
+            var user = new User { Email = request.Email, Password = passwordHash, Status = UserStatus.Verified };
             await _userRepository.CreateAsync(user);
             await unitOfWork.SaveChangesAsync();
             return _authHandler.CreateAuthToken(user.Id);
