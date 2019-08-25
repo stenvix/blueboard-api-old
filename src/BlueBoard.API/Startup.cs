@@ -1,4 +1,11 @@
-﻿using BlueBoard.Persistence;
+﻿using BlueBoard.API.Filters;
+using BlueBoard.API.Infrastructure;
+using BlueBoard.Application;
+using BlueBoard.Application.Infrastructure;
+using BlueBoard.Persistence;
+using BlueBoard.Persistence.Repositories;
+using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,14 +16,6 @@ using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 using System.Reflection;
-using BlueBoard.API.Filters;
-using BlueBoard.API.Infrastructure;
-using BlueBoard.Application;
-using BlueBoard.Application.Infrastructure;
-using BlueBoard.Application.Users.Commands.SignIn;
-using BlueBoard.Persistence.Repositories;
-using FluentValidation;
-using MediatR;
 
 namespace BlueBoard.API
 {

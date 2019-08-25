@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +12,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql;
+using Serilog;
 
 namespace BlueBoard.API.Infrastructure
 {
@@ -47,30 +52,37 @@ namespace BlueBoard.API.Infrastructure
         {
             using (var scope = builder.ApplicationServices.CreateScope())
             {
+                var config = scope.ServiceProvider.GetService<IConfiguration>();
+                var logger = scope.ServiceProvider.GetService<ILogger<BlueBoardContext>>();
+                WaitForDatabase(config.GetConnectionString("Default"), logger);
                 using (var context = scope.ServiceProvider.GetService<BlueBoardContext>())
                 {
-                    WaitForDatabase(context);
                     var migrations = context.Database.GetPendingMigrations();
                     if (migrations.Any()) context.Database.Migrate();
                 }
             }
         }
 
-        private static void WaitForDatabase(BlueBoardContext context, int retryCount = 60)
+        private static void WaitForDatabase(string connectionString, ILogger<BlueBoardContext> logger, int retryCount = 60)
         {
-            int retry = 0;
-            var connection = context.Database.GetDbConnection();
-            while (retry < retryCount)
+            var connectionStringBuilder = new DbConnectionStringBuilder { ConnectionString = connectionString };
+            var retry = 0;
+
+            using (var connection = new NpgsqlConnection(connectionStringBuilder.ConnectionString))
             {
-                try
+                while (retry < retryCount)
                 {
-                    connection.Open();
-                    return;
-                }
-                catch (SocketException e)
-                {
-                    retry++;
-                    Task.Delay(500);
+                    try
+                    {
+                        connection.Open();
+                        return;
+                    }
+                    catch (Exception exception)
+                    {
+                        retry++;
+                        logger.LogError(exception.Message, exception);
+                        Task.Delay(250);
+                    }
                 }
             }
         }
