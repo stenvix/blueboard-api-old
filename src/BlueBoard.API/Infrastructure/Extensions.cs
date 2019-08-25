@@ -1,10 +1,4 @@
-﻿using System;
-using System.Data.Common;
-using System.Data.SqlClient;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-using BlueBoard.API.Options;
+﻿using BlueBoard.API.Options;
 using BlueBoard.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -15,7 +9,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
-using Serilog;
+using System;
+using System.Data.Common;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BlueBoard.API.Infrastructure
 {
@@ -50,17 +48,18 @@ namespace BlueBoard.API.Infrastructure
 
         public static void RunMigrations(this IApplicationBuilder builder)
         {
-            using (var scope = builder.ApplicationServices.CreateScope())
+            Task.Run(async () =>
             {
-                var config = scope.ServiceProvider.GetService<IConfiguration>();
-                var logger = scope.ServiceProvider.GetService<ILogger<BlueBoardContext>>();
-                WaitForDatabase(config.GetConnectionString("Default"), logger);
-                using (var context = scope.ServiceProvider.GetService<BlueBoardContext>())
+                await Task.Delay(TimeSpan.FromSeconds(5));
+                using (var scope = builder.ApplicationServices.CreateScope())
                 {
-                    var migrations = context.Database.GetPendingMigrations();
-                    if (migrations.Any()) context.Database.Migrate();
+                    using (var context = scope.ServiceProvider.GetService<BlueBoardContext>())
+                    {
+                        var migrations = context.Database.GetPendingMigrations();
+                        if (migrations.Any()) context.Database.Migrate();
+                    }
                 }
-            }
+            });
         }
 
         private static void WaitForDatabase(string connectionString, ILogger<BlueBoardContext> logger, int retryCount = 60)
@@ -68,9 +67,9 @@ namespace BlueBoard.API.Infrastructure
             var connectionStringBuilder = new DbConnectionStringBuilder { ConnectionString = connectionString };
             var retry = 0;
 
-            using (var connection = new NpgsqlConnection(connectionStringBuilder.ConnectionString))
+            while (retry < retryCount)
             {
-                while (retry < retryCount)
+                using (var connection = new NpgsqlConnection(connectionStringBuilder.ConnectionString))
                 {
                     try
                     {
@@ -81,7 +80,7 @@ namespace BlueBoard.API.Infrastructure
                     {
                         retry++;
                         logger.LogError(exception.Message, exception);
-                        Task.Delay(250);
+                        Thread.Sleep(1000);
                     }
                 }
             }
