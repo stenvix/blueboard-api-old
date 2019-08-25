@@ -2,5 +2,7 @@
 {
     public class AuthTokenModel
     {
+        public string AccessToken { get; set; }
+        public long Expires { get; set; }
     }
 }

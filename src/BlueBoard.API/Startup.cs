@@ -9,6 +9,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 using System.Reflection;
+using BlueBoard.API.Infrastructure;
 using BlueBoard.Application;
 using BlueBoard.Application.Infrastructure;
 using BlueBoard.Application.Users.Commands.SignIn;
@@ -30,16 +31,14 @@ namespace BlueBoard.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddEntityFrameworkNpgsql()
-                .AddDbContext<BlueBoardContext>(config =>
-                {
-                    config.UseNpgsql(Configuration.GetConnectionString("Default"));
-                });
+                .AddDbContext<BlueBoardContext>(config => config.UseNpgsql(Configuration.GetConnectionString("Default")));
             var applicationAssembly = typeof(BaseHandler<,>).Assembly;
             services.AddMediatR(applicationAssembly);
             services.AddValidatorsFromAssembly(applicationAssembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddJwt(Configuration);
             services.AddSwaggerGen(config =>
             {
                 config.SwaggerDoc("v1", new Info { Title = "BlueBoard API", Version = "v1" });

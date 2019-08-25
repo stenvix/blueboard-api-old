@@ -5,14 +5,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ValidationException = BlueBoard.Application.Exceptions.ValidationException;
 
 namespace BlueBoard.Application.Infrastructure
 {
+    /// <summary>
+    /// Request Validation Behavior
+    /// </summary>
+    /// <typeparam name="TRequest"></typeparam>
+    /// <typeparam name="TResponse"></typeparam>
     public class RequestValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="RequestValidationBehavior{TRequest,TResponse}"/> class
+        /// </summary>
+        /// <param name="validators">Collection of validators</param>
         public RequestValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
             _validators = validators;

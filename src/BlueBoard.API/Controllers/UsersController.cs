@@ -1,9 +1,10 @@
-﻿using System.Net;
-using System.Threading.Tasks;
-using BlueBoard.Application.Users.Commands.SignIn;
+﻿using BlueBoard.Application.Users.Commands.SignIn;
+using BlueBoard.Application.Users.Commands.SignUp;
 using BlueBoard.Application.Users.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace BlueBoard.API.Controllers
 {
@@ -22,5 +23,8 @@ namespace BlueBoard.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(AuthTokenModel), (int)HttpStatusCode.OK)]
         public Task<AuthTokenModel> SignIn([FromBody]SignInCommand command) => _mediator.Send(command);
+
+        [HttpPost]
+        public Task<AuthTokenModel> SignUp([FromBody]SignUpCommand command) => _mediator.Send(command);
     }
 }
