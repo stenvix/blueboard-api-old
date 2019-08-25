@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Users\Commands\SignOut\" />
     <Folder Include="Users\Queries\" />
   </ItemGroup>
 

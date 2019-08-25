@@ -14,5 +14,10 @@ namespace BlueBoard.Persistence.Repositories
         {
             return Set.FirstOrDefaultAsync(i => i.Email == email);
         }
+
+        public Task CreateAsync(User entity)
+        {
+            return Set.AddAsync(entity);
+        }
     }
 }

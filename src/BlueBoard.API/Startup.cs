@@ -9,10 +9,12 @@ using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 using System.Reflection;
+using BlueBoard.API.Filters;
 using BlueBoard.API.Infrastructure;
 using BlueBoard.Application;
 using BlueBoard.Application.Infrastructure;
 using BlueBoard.Application.Users.Commands.SignIn;
+using BlueBoard.Persistence.Repositories;
 using FluentValidation;
 using MediatR;
 
@@ -36,8 +38,10 @@ namespace BlueBoard.API
             services.AddMediatR(applicationAssembly);
             services.AddValidatorsFromAssembly(applicationAssembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IAuthHandler, AuthHandler>();
+            services.AddMvc(config => config.Filters.Add(typeof(BlueBoardExceptionFilter)))
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddJwt(Configuration);
             services.AddSwaggerGen(config =>
             {

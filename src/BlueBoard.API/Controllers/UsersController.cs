@@ -20,11 +20,11 @@ namespace BlueBoard.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost("sign-in")]
         [ProducesResponseType(typeof(AuthTokenModel), (int)HttpStatusCode.OK)]
         public Task<AuthTokenModel> SignIn([FromBody]SignInCommand command) => _mediator.Send(command);
 
-        [HttpPost]
+        [HttpPost("sign-up")]
         public Task<AuthTokenModel> SignUp([FromBody]SignUpCommand command) => _mediator.Send(command);
     }
 }

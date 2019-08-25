@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using System;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace BlueBoard.Persistence.Repositories
@@ -9,6 +12,7 @@ namespace BlueBoard.Persistence.Repositories
         #region Fields
 
         private readonly BlueBoardContext _context;
+        private readonly ConcurrentDictionary<string, object> _repositories = new ConcurrentDictionary<string, object>();
 
         #endregion
 
@@ -19,7 +23,7 @@ namespace BlueBoard.Persistence.Repositories
 
         public TRepository GetRepository<TRepository>()
         {
-            throw new NotImplementedException();
+            return (TRepository)_repositories.GetOrAdd(typeof(TRepository).Name, CreateSpecificRepository<TRepository>());
         }
 
         public Task<int> SaveChangesAsync()
@@ -48,6 +52,25 @@ namespace BlueBoard.Persistence.Repositories
                 throw new ArgumentNullException(nameof(transaction), "Transaction can't be null");
             }
             dbTransaction.Rollback();
+        }
+
+        private object CreateSpecificRepository<TRepository>()
+        {
+            var implementationTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.GetInterfaces().Contains(typeof(TRepository))).ToList();
+            if (implementationTypes.Count == 0)
+            {
+                throw new InvalidOperationException("There is no implementation of this repository interface");
+            }
+
+            if (implementationTypes.Count > 1)
+            {
+                throw new InvalidOperationException("There are multiple implementation of this repository interface");
+            }
+
+            var repositoryClassType = implementationTypes.First();
+            var repositoryInstance = Activator.CreateInstance(repositoryClassType, _context);
+
+            return repositoryInstance;
         }
     }
 }
