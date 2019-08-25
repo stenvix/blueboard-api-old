@@ -334,3 +334,4 @@ ASALocalRun/
 
 # Development project settings
 appsettings.*.json
+!appsettings.Docker.json
