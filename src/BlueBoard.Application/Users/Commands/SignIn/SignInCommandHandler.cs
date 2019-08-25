@@ -28,7 +28,7 @@ namespace BlueBoard.Application.Users.Commands.SignIn
             var user = await _userRepository.GetByEmailAsync(request.Email);
             if (user == null) throw new NotFoundException("User", request.Email);
 
-            if (!_authHandler.ValidatePassword(request.Password, user.Password)) throw new ValidationException(Codes.InvalidCredentials);
+            if (!_authHandler.ValidatePassword(request.Password, user.Password)) throw new AuthException(Codes.InvalidCredentials);
 
             return _authHandler.CreateAuthToken(user.Id);
         }
