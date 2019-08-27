@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using BlueBoard.Domain;
+﻿using BlueBoard.Domain;
+using System;
+using System.Threading.Tasks;
 
 namespace BlueBoard.Persistence.Repositories
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IUserRepository : IRepository<User, Guid>
     {
         Task<User> GetByEmailAsync(string email);
-        Task CreateAsync(User entity);
     }
 }

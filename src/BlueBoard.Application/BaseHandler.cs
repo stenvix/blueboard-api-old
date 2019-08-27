@@ -1,10 +1,10 @@
-﻿using BlueBoard.Persistence;
+﻿using AutoMapper;
+using BlueBoard.Persistence.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using BlueBoard.Persistence.Repositories;
 
 namespace BlueBoard.Application
 {
@@ -12,14 +12,16 @@ namespace BlueBoard.Application
     {
         #region Fields
 
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
+        protected readonly IMapper Mapper;
         protected ILogger<BaseHandler<TRequest, TResult>> Logger;
 
         #endregion
 
-        protected BaseHandler(IUnitOfWork unitOfWork, ILogger<BaseHandler<TRequest, TResult>> logger)
+        protected BaseHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<BaseHandler<TRequest, TResult>> logger)
         {
             _unitOfWork = unitOfWork;
+            Mapper = mapper;
             Logger = logger;
         }
 

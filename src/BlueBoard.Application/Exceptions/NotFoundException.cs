@@ -3,7 +3,7 @@
     /// <summary>
     /// Not found exception
     /// </summary>
-    public class NotFoundException : BlueBoardBaseException
+    public class NotFoundException : BaseException
     {
         /// <summary>
         /// Initializes a new instance of <see cref="NotFoundException"/> class

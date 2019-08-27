@@ -2,6 +2,7 @@
 using BlueBoard.Application.Users.Commands.SignUp;
 using BlueBoard.Application.Users.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
@@ -9,22 +10,28 @@ using System.Threading.Tasks;
 namespace BlueBoard.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [Produces("application/json")]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseController
     {
-        private readonly IMediator _mediator;
-
-        public UsersController(IMediator mediator)
+        /// <summary>
+        /// Initializes a new instance of <see cref="UsersController"/>
+        /// </summary>
+        /// <param name="mediator">Mediator</param>
+        public UsersController(IMediator mediator) : base(mediator)
         {
-            _mediator = mediator;
         }
 
+        [AllowAnonymous]
         [HttpPost("sign-in")]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(AuthTokenModel), (int)HttpStatusCode.OK)]
-        public Task<AuthTokenModel> SignIn([FromBody]SignInCommand command) => _mediator.Send(command);
+        public Task<AuthTokenModel> SignIn([FromBody]SignInCommand command) => Mediator.Send(command);
 
+        [AllowAnonymous]
         [HttpPost("sign-up")]
-        public Task<AuthTokenModel> SignUp([FromBody]SignUpCommand command) => _mediator.Send(command);
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(AuthTokenModel), (int)HttpStatusCode.OK)]
+        public Task<AuthTokenModel> SignUp([FromBody]SignUpCommand command) => Mediator.Send(command);
     }
 }

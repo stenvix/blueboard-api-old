@@ -31,4 +31,10 @@
     <ProjectReference Include="..\BlueBoard.Application\BlueBoard.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Infrastructure\Data\country.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

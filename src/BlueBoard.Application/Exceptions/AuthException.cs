@@ -3,7 +3,7 @@
     /// <summary>
     /// Auth exception
     /// </summary>
-    public class AuthException : BlueBoardBaseException
+    public class AuthException : BaseException
     {
         /// <summary>
         /// Initializes a new instance of <see cref="AuthException"/> class

@@ -1,10 +1,11 @@
 ﻿using BlueBoard.Domain;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading.Tasks;
 
 namespace BlueBoard.Persistence.Repositories
 {
-    public class UserRepository : BaseRepository<User>, IUserRepository
+    public class UserRepository : BaseRepository<User, Guid>, IUserRepository
     {
         public UserRepository(BlueBoardContext context) : base(context)
         {
@@ -13,11 +14,6 @@ namespace BlueBoard.Persistence.Repositories
         public Task<User> GetByEmailAsync(string email)
         {
             return Set.FirstOrDefaultAsync(i => i.Email == email);
-        }
-
-        public Task CreateAsync(User entity)
-        {
-            return Set.AddAsync(entity);
         }
     }
 }

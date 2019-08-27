@@ -1,12 +1,13 @@
-﻿using BlueBoard.Application.Exceptions;
+﻿using AutoMapper;
+using BlueBoard.Application.Exceptions;
 using BlueBoard.Application.Infrastructure;
 using BlueBoard.Application.Users.Models;
+using BlueBoard.Common.Enums;
 using BlueBoard.Domain;
 using BlueBoard.Persistence.Repositories;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
-using BlueBoard.Common.Enums;
 
 namespace BlueBoard.Application.Users.Commands.SignUp
 {
@@ -19,7 +20,7 @@ namespace BlueBoard.Application.Users.Commands.SignUp
 
         #endregion
 
-        public SignUpCommandHandler(IUnitOfWork unitOfWork, ILogger<SignUpCommandHandler> logger, IAuthHandler authHandler) : base(unitOfWork, logger)
+        public SignUpCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<SignUpCommandHandler> logger, IAuthHandler authHandler) : base(unitOfWork, mapper, logger)
         {
             _authHandler = authHandler;
             _userRepository = unitOfWork.GetRepository<IUserRepository>();

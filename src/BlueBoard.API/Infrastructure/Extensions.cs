@@ -14,6 +14,8 @@ using System.Data.Common;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BlueBoard.API.Infrastructure
 {
@@ -32,7 +34,6 @@ namespace BlueBoard.API.Infrastructure
                 })
                 .AddJwtBearer(config =>
                 {
-                    //TODO: Uncomment when deploy
                     config.RequireHttpsMetadata = false;
                     config.SaveToken = true;
                     config.TokenValidationParameters = new TokenValidationParameters
@@ -57,33 +58,11 @@ namespace BlueBoard.API.Infrastructure
                     {
                         var migrations = context.Database.GetPendingMigrations();
                         if (migrations.Any()) context.Database.Migrate();
+                        var seeder = scope.ServiceProvider.GetService<DataSeeder>();
+                        await seeder.SeedAsync();
                     }
                 }
             });
-        }
-
-        private static void WaitForDatabase(string connectionString, ILogger<BlueBoardContext> logger, int retryCount = 60)
-        {
-            var connectionStringBuilder = new DbConnectionStringBuilder { ConnectionString = connectionString };
-            var retry = 0;
-
-            while (retry < retryCount)
-            {
-                using (var connection = new NpgsqlConnection(connectionStringBuilder.ConnectionString))
-                {
-                    try
-                    {
-                        connection.Open();
-                        return;
-                    }
-                    catch (Exception exception)
-                    {
-                        retry++;
-                        logger.LogError(exception.Message, exception);
-                        Thread.Sleep(1000);
-                    }
-                }
-            }
         }
     }
 }

@@ -5,7 +5,7 @@ namespace BlueBoard.Persistence.Repositories
 {
     public interface IUnitOfWork
     {
-        TRepository GetRepository<TRepository>();
+        TRepository GetRepository<TRepository>() where TRepository : IRepository;
         Task<int> SaveChangesAsync();
         IDisposable BeginTransaction();
         void CommitTransaction(IDisposable transaction);

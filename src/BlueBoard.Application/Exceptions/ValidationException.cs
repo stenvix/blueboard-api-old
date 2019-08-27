@@ -7,7 +7,7 @@ namespace BlueBoard.Application.Exceptions
     /// <summary>
     /// Validation exception
     /// </summary>
-    public class ValidationException : BlueBoardBaseException
+    public class ValidationException : BaseException
     {
         #region Fields
 

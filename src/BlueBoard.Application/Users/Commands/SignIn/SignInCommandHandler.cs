@@ -1,4 +1,5 @@
-﻿using BlueBoard.Application.Exceptions;
+﻿using AutoMapper;
+using BlueBoard.Application.Exceptions;
 using BlueBoard.Application.Infrastructure;
 using BlueBoard.Application.Users.Models;
 using BlueBoard.Persistence.Repositories;
@@ -17,7 +18,7 @@ namespace BlueBoard.Application.Users.Commands.SignIn
 
         #endregion
 
-        public SignInCommandHandler(IUnitOfWork unitOfWork, ILogger<BaseHandler<SignInCommand, AuthTokenModel>> logger, IAuthHandler authHandler) : base(unitOfWork, logger)
+        public SignInCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<BaseHandler<SignInCommand, AuthTokenModel>> logger, IAuthHandler authHandler) : base(unitOfWork, mapper, logger)
         {
             _authHandler = authHandler;
             _userRepository = unitOfWork.GetRepository<IUserRepository>();
@@ -32,5 +33,6 @@ namespace BlueBoard.Application.Users.Commands.SignIn
 
             return _authHandler.CreateAuthToken(user.Id);
         }
+
     }
 }
