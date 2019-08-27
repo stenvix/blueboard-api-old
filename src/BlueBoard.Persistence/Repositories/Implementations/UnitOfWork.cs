@@ -21,7 +21,7 @@ namespace BlueBoard.Persistence.Repositories
             _context = context;
         }
 
-        public TRepository GetRepository<TRepository>()
+        public TRepository GetRepository<TRepository>() where TRepository : IRepository
         {
             return (TRepository)_repositories.GetOrAdd(typeof(TRepository).Name, CreateSpecificRepository<TRepository>());
         }
@@ -54,7 +54,7 @@ namespace BlueBoard.Persistence.Repositories
             dbTransaction.Rollback();
         }
 
-        private object CreateSpecificRepository<TRepository>()
+        private object CreateSpecificRepository<TRepository>() where TRepository : IRepository
         {
             var implementationTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.GetInterfaces().Contains(typeof(TRepository))).ToList();
             if (implementationTypes.Count == 0)

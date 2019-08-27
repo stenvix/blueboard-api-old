@@ -48,13 +48,9 @@ namespace BlueBoard.Persistence.Migrations
 
                     b.Property<int>("Role");
 
-                    b.Property<Guid?>("TripId1");
-
                     b.HasKey("UserId", "TripId");
 
                     b.HasIndex("TripId");
-
-                    b.HasIndex("TripId1");
 
                     b.ToTable("Participants");
                 });
@@ -89,13 +85,9 @@ namespace BlueBoard.Persistence.Migrations
 
                     b.Property<Guid>("CountryId");
 
-                    b.Property<Guid?>("TripId1");
-
                     b.HasKey("TripId", "CountryId");
 
                     b.HasIndex("CountryId");
-
-                    b.HasIndex("TripId1");
 
                     b.ToTable("TripCountries");
                 });
@@ -129,13 +121,9 @@ namespace BlueBoard.Persistence.Migrations
             modelBuilder.Entity("BlueBoard.Domain.Participant", b =>
                 {
                     b.HasOne("BlueBoard.Domain.Trip", "Trip")
-                        .WithMany()
+                        .WithMany("Participants")
                         .HasForeignKey("TripId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("BlueBoard.Domain.Trip")
-                        .WithMany("Participants")
-                        .HasForeignKey("TripId1");
 
                     b.HasOne("BlueBoard.Domain.User", "User")
                         .WithMany()
@@ -156,16 +144,12 @@ namespace BlueBoard.Persistence.Migrations
                     b.HasOne("BlueBoard.Domain.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BlueBoard.Domain.Trip", "Trip")
-                        .WithMany()
-                        .HasForeignKey("TripId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("BlueBoard.Domain.Trip")
                         .WithMany("Countries")
-                        .HasForeignKey("TripId1");
+                        .HasForeignKey("TripId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

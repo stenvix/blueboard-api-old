@@ -26,9 +26,16 @@ namespace BlueBoard.Application.Infrastructure
         {
             _validators = validators;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <param name="next"></param>
+        /// <returns></returns>
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
+            if (request == null) throw new ArgumentNullException(nameof(request));
             if (next == null) throw new ArgumentNullException(nameof(next));
             var context = new ValidationContext(request);
 

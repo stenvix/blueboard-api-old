@@ -19,7 +19,6 @@ namespace BlueBoard.API.Filters
         public override void OnException(ExceptionContext context)
         {
             if (context == null) return;
-            if (context.Exception is BlueBoardBaseException baseException) { }
             _logger.LogError(context.Exception.Message, context.Exception);
             if (context.Exception is ValidationException exception)
             {
@@ -56,12 +55,15 @@ namespace BlueBoard.API.Filters
 
             context.HttpContext.Response.ContentType = "application/json";
             context.HttpContext.Response.StatusCode = (int)code;
-            if (!showTrace) return;
-            context.Result = new JsonResult(new
+            if (showTrace)
             {
-                error = new[] { context.Exception.Message },
-                stackTrace = context.Exception.StackTrace,
-            });
+                context.Result = new JsonResult(new
+                {
+                    error = new[] { context.Exception.Message },
+                    stackTrace = context.Exception.StackTrace,
+                });
+            }
+            context.Result = new EmptyResult();
         }
     }
 }

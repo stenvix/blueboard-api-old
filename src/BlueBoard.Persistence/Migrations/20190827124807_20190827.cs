@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BlueBoard.Persistence.Migrations
 {
-    public partial class _201908 : Migration
+    public partial class _20190827 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -68,8 +68,7 @@ namespace BlueBoard.Persistence.Migrations
                     UserId = table.Column<Guid>(nullable: false),
                     TripId = table.Column<Guid>(nullable: false),
                     Id = table.Column<Guid>(nullable: false),
-                    Role = table.Column<int>(nullable: false),
-                    TripId1 = table.Column<Guid>(nullable: true)
+                    Role = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,12 +76,6 @@ namespace BlueBoard.Persistence.Migrations
                     table.ForeignKey(
                         name: "FK_Participants_Trips_TripId",
                         column: x => x.TripId,
-                        principalTable: "Trips",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Participants_Trips_TripId1",
-                        column: x => x.TripId1,
                         principalTable: "Trips",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -99,8 +92,7 @@ namespace BlueBoard.Persistence.Migrations
                 columns: table => new
                 {
                     TripId = table.Column<Guid>(nullable: false),
-                    CountryId = table.Column<Guid>(nullable: false),
-                    TripId1 = table.Column<Guid>(nullable: true)
+                    CountryId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,19 +102,13 @@ namespace BlueBoard.Persistence.Migrations
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TripCountries_Trips_TripId",
                         column: x => x.TripId,
                         principalTable: "Trips",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TripCountries_Trips_TripId1",
-                        column: x => x.TripId1,
-                        principalTable: "Trips",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -137,19 +123,9 @@ namespace BlueBoard.Persistence.Migrations
                 column: "TripId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Participants_TripId1",
-                table: "Participants",
-                column: "TripId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TripCountries_CountryId",
                 table: "TripCountries",
                 column: "CountryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TripCountries_TripId1",
-                table: "TripCountries",
-                column: "TripId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Trips_CreatedById",

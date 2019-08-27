@@ -13,5 +13,11 @@
         public static string EmptyPassword => "empty_password";
 
         public static string InvalidCredentials => "invalid_credentials";
+        public static string HasNoPermissions => "has_no_permissions";
+        public static string InvalidStartDate => "invalid_start_date";
+        public static string InvalidEndDate => "invalid_end_date";
+        public static string CountryIsRequired => "country_is_required";
+        public static string InvalidId => "invalid_id";
+
     }
 }

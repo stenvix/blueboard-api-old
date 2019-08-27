@@ -1,4 +1,5 @@
-﻿using BlueBoard.API.Filters;
+﻿using AutoMapper;
+using BlueBoard.API.Filters;
 using BlueBoard.API.Infrastructure;
 using BlueBoard.Application;
 using BlueBoard.Application.Infrastructure;
@@ -38,9 +39,13 @@ namespace BlueBoard.API
             services.AddValidatorsFromAssembly(applicationAssembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICurrentUserProvider, CurrentUserProvider>();
+            services.AddScoped<DataSeeder>();
             services.AddSingleton<IAuthHandler, AuthHandler>();
             services.AddMvc(config => config.Filters.Add(typeof(BlueBoardExceptionFilter)))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddHttpContextAccessor();
+            services.AddAutoMapper(applicationAssembly);
             services.AddJwt(Configuration);
             services.AddSwaggerGen(config =>
             {
@@ -48,6 +53,7 @@ namespace BlueBoard.API
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 config.IncludeXmlComments(xmlPath);
+                config.OperationFilter<SwaggerAuthFilter>();
             });
         }
 
@@ -66,6 +72,7 @@ namespace BlueBoard.API
                 config.RoutePrefix = string.Empty;
             });
 
+            app.UseAuthentication();
             app.UseMvc();
             app.RunMigrations();
         }
