@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
+using BlueBoard.Application.Exceptions;
 using BlueBoard.Application.Infrastructure;
 using BlueBoard.Application.Users.Models;
+using BlueBoard.Domain;
 using BlueBoard.Persistence.Repositories;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
-using BlueBoard.Application.Exceptions;
-using BlueBoard.Domain;
 
 namespace BlueBoard.Application.Users.Queries.GetCurrentUser
 {
@@ -23,7 +23,7 @@ namespace BlueBoard.Application.Users.Queries.GetCurrentUser
 
         protected override async Task<SlimUserModel> Handle(GetCurrentUserQuery request, IUnitOfWork unitOfWork, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetAsync(_currentUserProvider.UserId);
+            var user = await _userRepository.GetActiveAsync(_currentUserProvider.UserId);
             if (user == null) throw new NotFoundException(nameof(User), _currentUserProvider.UserId);
             return Mapper.Map<SlimUserModel>(user);
         }
