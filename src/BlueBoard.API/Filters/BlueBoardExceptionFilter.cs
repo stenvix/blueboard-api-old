@@ -1,4 +1,5 @@
-﻿using BlueBoard.API.Models;
+﻿using System.Collections.Generic;
+using BlueBoard.API.Models;
 using BlueBoard.Application.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -44,6 +45,7 @@ namespace BlueBoard.API.Filters
                     {
                         showTrace = false;
                         code = HttpStatusCode.Unauthorized;
+                        context.Result = new JsonResult(new ExceptionModel(e.Code, new List<string>()));
                         break;
                     }
                 default:
