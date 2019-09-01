@@ -10,7 +10,8 @@ namespace BlueBoard.Application.Users.Models
         {
             CreateMap<User, SlimUserModel>();
             CreateMap<UpdateUserCommand, User>()
-                .ForMember(dest => dest.Id, src => src.Ignore());
+                .ForMember(dest => dest.Id, src => src.Ignore())
+                .ForMember(dest => dest.Password, src => src.Ignore());
         }
     }
 }
