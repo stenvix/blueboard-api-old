@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using BlueBoard.API.Models;
+﻿using BlueBoard.API.Models;
 using BlueBoard.Application.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Net;
 
 namespace BlueBoard.API.Filters
