@@ -14,11 +14,12 @@ namespace BlueBoard.Application.Common
                 .SetValidator(new EmailValidator()).WithErrorCode(Codes.InvalidEmail);
         }
 
-        public static void ValidatePassword<T, TProperty>(this AbstractValidator<T> validator, Expression<Func<T, TProperty>> expression)
+        public static void ValidatePassword<T, TProperty>(this AbstractValidator<T> validator, Expression<Func<T, TProperty>> expression, Func<T, bool> when)
         {
             validator.RuleFor(expression)
                 .NotEmpty().WithErrorCode(Codes.EmptyPassword)
-                .SetValidator(new MinimumLengthValidator(6)).WithErrorCode(Codes.InvalidPasswordLength);
+                .SetValidator(new MinimumLengthValidator(6)).WithErrorCode(Codes.InvalidPasswordLength)
+                .When(when);
         }
 
         public static void ValidatePhone<T, TProperty>(this AbstractValidator<T> validator, Expression<Func<T, TProperty>> expression, Func<T, bool> when)

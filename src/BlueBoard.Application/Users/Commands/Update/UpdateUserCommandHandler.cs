@@ -6,15 +6,18 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using BlueBoard.Application.Infrastructure;
 
 namespace BlueBoard.Application.Users.Commands.Update
 {
     public class UpdateUserCommandHandler : BaseHandler<UpdateUserCommand, Guid>
     {
+        private readonly IAuthHandler _authHandler;
         private readonly IUserRepository _userRepository;
 
-        public UpdateUserCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<BaseHandler<UpdateUserCommand, Guid>> logger) : base(unitOfWork, mapper, logger)
+        public UpdateUserCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<BaseHandler<UpdateUserCommand, Guid>> logger, IAuthHandler authHandler) : base(unitOfWork, mapper, logger)
         {
+            _authHandler = authHandler;
             _userRepository = unitOfWork.GetRepository<IUserRepository>();
         }
 
@@ -24,6 +27,10 @@ namespace BlueBoard.Application.Users.Commands.Update
             if (entity == null) throw new NotFoundException(nameof(User), request.Id);
 
             Mapper.Map(request, entity);
+            if (!string.IsNullOrEmpty(request.Password))
+            {
+                entity.Password = _authHandler.GetPasswordHash(entity.Password);
+            }
 
             await _userRepository.UpdateAsync(entity);
             await unitOfWork.SaveChangesAsync();

@@ -8,7 +8,7 @@ namespace BlueBoard.Application.Users.Commands.Update
         public UpdateUserCommandValidator()
         {
             this.ValidateEmail(i => i.Email);
-            this.ValidatePassword(i => i.Password);
+            this.ValidatePassword(i => i.Password, command => !string.IsNullOrEmpty(command.Password));
             this.ValidatePhone(i => i.Phone, command => !string.IsNullOrEmpty(command.Phone));
 
             RuleFor(i => i.FirstName)
