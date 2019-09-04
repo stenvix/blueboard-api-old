@@ -21,5 +21,6 @@
         public static string InvalidEndDate => "invalid_end_date";
         public static string InvalidPhone => "invalid_phone";
         public static string InvalidPasswordLength => "invalid_password_length";
+        public static string InvalidOperation => "invalid_operation";
     }
 }

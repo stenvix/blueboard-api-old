@@ -1,11 +1,12 @@
-﻿using MediatR;
+﻿using BlueBoard.Application.Common;
+using BlueBoard.Application.Users.Base;
+using BlueBoard.Application.Users.Common;
 using System;
 
 namespace BlueBoard.Application.Users.Commands.Update
 {
-    public class UpdateUserCommand : IRequest<Guid>
+    public class UpdateUserCommand : BaseCommand<Guid>, IUserNameInfo, IUserCredentials
     {
-        public Guid Id { get; set; }
         /// <summary>
         /// Gets or sets user first name
         /// </summary>

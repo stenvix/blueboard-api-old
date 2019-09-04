@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using BlueBoard.Application.Users.Base;
+using FluentValidation;
 
 namespace BlueBoard.Application.Users.Commands.SignIn
 {
@@ -12,13 +13,7 @@ namespace BlueBoard.Application.Users.Commands.SignIn
         /// </summary>
         public SignInValidator()
         {
-            RuleFor(i => i.Email)
-                .NotEmpty().WithErrorCode(Codes.EmptyEmail)
-                .EmailAddress().WithErrorCode(Codes.InvalidEmail);
-
-            RuleFor(i => i.Password)
-                .NotEmpty().WithErrorCode(Codes.EmptyPassword)
-                .MinimumLength(6).WithErrorCode(Codes.InvalidPasswordLength);
+            Include(new UserCredentialsValidator());
         }
     }
 }

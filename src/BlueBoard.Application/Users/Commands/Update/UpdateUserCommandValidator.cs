@@ -1,4 +1,5 @@
 ﻿using BlueBoard.Application.Common;
+using BlueBoard.Application.Users.Base;
 using FluentValidation;
 
 namespace BlueBoard.Application.Users.Commands.Update
@@ -7,15 +8,10 @@ namespace BlueBoard.Application.Users.Commands.Update
     {
         public UpdateUserCommandValidator()
         {
-            this.ValidateEmail(i => i.Email);
-            this.ValidatePassword(i => i.Password, command => !string.IsNullOrEmpty(command.Password));
+            Include(new UserNameInfoValidator());
+            Include(new UserCredentialsValidator());
+
             this.ValidatePhone(i => i.Phone, command => !string.IsNullOrEmpty(command.Phone));
-
-            RuleFor(i => i.FirstName)
-                .NotEmpty().WithErrorCode(Codes.EmptyFirstName);
-
-            RuleFor(i => i.LastName)
-                .NotEmpty().WithErrorCode(Codes.EmptyLastName);
         }
     }
 }

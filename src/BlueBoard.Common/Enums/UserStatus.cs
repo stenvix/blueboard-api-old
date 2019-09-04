@@ -2,8 +2,9 @@
 {
     public enum UserStatus
     {
-        Unverified,
-        Verified,
-        Removed
+        Initial = 1,
+        Unverified = 2,
+        Verified = 3,
+        Removed = 4
     }
 }

@@ -2,6 +2,7 @@
 using BlueBoard.Application.Exceptions;
 using BlueBoard.Application.Infrastructure;
 using BlueBoard.Application.Users.Models;
+using BlueBoard.Common.Enums;
 using BlueBoard.Persistence.Repositories;
 using Microsoft.Extensions.Logging;
 using System.Threading;
@@ -18,7 +19,7 @@ namespace BlueBoard.Application.Users.Commands.SignIn
 
         #endregion
 
-        public SignInCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<BaseHandler<SignInCommand, AuthTokenModel>> logger, IAuthHandler authHandler) : base(unitOfWork, mapper, logger)
+        public SignInCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<SignInCommandHandler> logger, IAuthHandler authHandler) : base(unitOfWork, mapper, logger)
         {
             _authHandler = authHandler;
             _userRepository = unitOfWork.GetRepository<IUserRepository>();
@@ -27,12 +28,11 @@ namespace BlueBoard.Application.Users.Commands.SignIn
         protected override async Task<AuthTokenModel> Handle(SignInCommand request, IUnitOfWork unitOfWork, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByEmailAsync(request.Email);
-            if (user == null) throw new AuthException(Codes.InvalidCredentials);
+            if (user == null || user.Status == UserStatus.Removed) throw new AuthException(Codes.InvalidCredentials);
 
             if (!_authHandler.ValidatePassword(request.Password, user.Password)) throw new AuthException(Codes.InvalidCredentials);
 
             return _authHandler.CreateAuthToken(user.Id);
         }
-
     }
 }

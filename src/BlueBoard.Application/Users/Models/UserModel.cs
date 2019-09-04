@@ -1,6 +1,8 @@
-﻿namespace BlueBoard.Application.Users.Models
+﻿using BlueBoard.Common.Enums;
+
+namespace BlueBoard.Application.Users.Models
 {
-    public class UserModel: SlimUserModel
+    public class UserModel : SlimUserModel
     {
         /// <summary>
         /// Gets or sets user email
@@ -11,5 +13,10 @@
         /// Gets or sets user phone number
         /// </summary>
         public string Phone { get; set; }
+
+        /// <summary>
+        /// Gets or sets user status
+        /// </summary>
+        public UserStatus Status { get; set; }
     }
 }

@@ -18,10 +18,17 @@ namespace BlueBoard.Persistence.Repositories
             return Set.FirstOrDefaultAsync(i => i.Email == email);
         }
 
+        public Task<User> GetWithStatusAsync(Guid userId, UserStatus status)
+        {
+            return Set.Where(i => i.Id == userId &&
+                                  i.Status == status)
+                .FirstOrDefaultAsync();
+        }
+
         public Task<User> GetActiveAsync(Guid userId)
         {
             return Set.Where(i => i.Id == userId &&
-                                  i.Status == UserStatus.Verified)
+                                  i.Status != UserStatus.Removed)
                 .FirstOrDefaultAsync();
         }
     }
