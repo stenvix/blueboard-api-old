@@ -1,0 +1,14 @@
+﻿using BlueBoard.Application.Trips.Models;
+using MediatR;
+using System;
+using System.Collections.Generic;
+
+namespace BlueBoard.Application.Trips.Queries.SearchTrips
+{
+    public class SearchTripQuery : IRequest<IList<TripSlimModel>>
+    {
+        public string Query { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+    }
+}
