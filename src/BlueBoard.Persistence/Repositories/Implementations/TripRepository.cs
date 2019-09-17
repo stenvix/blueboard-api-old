@@ -1,10 +1,10 @@
-﻿using BlueBoard.Domain;
+﻿using BlueBoard.Common.Enums;
+using BlueBoard.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BlueBoard.Common.Enums;
 
 namespace BlueBoard.Persistence.Repositories
 {
@@ -24,11 +24,7 @@ namespace BlueBoard.Persistence.Repositories
 
         public async Task<IList<Trip>> GetForUserAsync(Guid userId)
         {
-            var entities = await Set.Include(i => i.Countries)
-                .ThenInclude(i => i.Country)
-                .Where(i => _activeStatuses.Contains(i.Status) &&
-                            (i.CreatedById == userId || i.Participants.Any(p => p.UserId == userId)))
-                .ToListAsync();
+            var entities = await GetForUserQuery(userId).ToListAsync();
             return entities;
         }
 
@@ -38,6 +34,39 @@ namespace BlueBoard.Persistence.Repositories
                                   _activeStatuses.Contains(i.Status) &&
                                   (i.CreatedById == userId || i.Participants.Any(p => p.UserId == userId)))
                 .AnyAsync();
+        }
+
+        public async Task<IList<Trip>> SearchForUserAsync(Guid userId, string query, DateTime? fromDate, DateTime? toDate)
+        {
+            var entities = GetForUserQuery(userId);
+            if (!string.IsNullOrEmpty(query))
+            {
+                entities = entities.Where(i => i.Name.Contains(query) ||
+                                               i.Description.Contains(query) ||
+                                               i.Countries.Any(c => c.Country.Name.Contains(query)));
+            }
+
+            if (fromDate.HasValue)
+            {
+                entities = entities.Where(i => i.StartDate >= fromDate.Value);
+            }
+
+            if (toDate.HasValue)
+            {
+                entities = entities.Where(i => i.StartDate <= toDate.Value);
+            }
+
+            var result = await entities.ToListAsync();
+            return result;
+        }
+
+
+        private IQueryable<Trip> GetForUserQuery(Guid userId)
+        {
+            return Set.Include(i => i.Countries)
+                .ThenInclude(i => i.Country)
+                .Where(i => _activeStatuses.Contains(i.Status) &&
+                            (i.CreatedById == userId || i.Participants.Any(p => p.UserId == userId)));
         }
     }
 }

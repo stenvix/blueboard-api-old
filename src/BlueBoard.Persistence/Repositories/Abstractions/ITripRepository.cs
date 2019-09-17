@@ -9,5 +9,6 @@ namespace BlueBoard.Persistence.Repositories
     {
         Task<IList<Trip>> GetForUserAsync(Guid userId);
         Task<bool> HasAccessAsync(Guid tripId, Guid userId);
+        Task<IList<Trip>> SearchForUserAsync(Guid userId, string query, DateTime? fromDate, DateTime? toDate);
     }
 }

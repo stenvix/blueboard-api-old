@@ -5,21 +5,24 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using BlueBoard.Application.Infrastructure;
 
 namespace BlueBoard.Application.Trips.Queries.GetUserTrips
 {
     public class GetUserTripsQueryHandler : BaseHandler<GetUserTripsQuery, IList<TripSlimModel>>
     {
+        private readonly ICurrentUserProvider _currentUserProvider;
         private readonly ITripRepository _tripRepository;
 
-        public GetUserTripsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<GetUserTripsQueryHandler> logger) : base(unitOfWork, mapper, logger)
+        public GetUserTripsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<GetUserTripsQueryHandler> logger, ICurrentUserProvider currentUserProvider) : base(unitOfWork, mapper, logger)
         {
+            _currentUserProvider = currentUserProvider;
             _tripRepository = unitOfWork.GetRepository<ITripRepository>();
         }
 
         protected override async Task<IList<TripSlimModel>> Handle(GetUserTripsQuery request, IUnitOfWork unitOfWork, CancellationToken cancellationToken)
         {
-            var entities = await _tripRepository.GetForUserAsync(request.UserId);
+            var entities = await _tripRepository.GetForUserAsync(_currentUserProvider.UserId);
             return Mapper.Map<IList<TripSlimModel>>(entities);
         }
     }
