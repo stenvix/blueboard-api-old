@@ -26,6 +26,7 @@ namespace BlueBoard.Application.Infrastructure
         {
             _validators = validators;
         }
+
         /// <summary>
         /// 
         /// </summary>

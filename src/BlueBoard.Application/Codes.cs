@@ -23,5 +23,6 @@
         public static string InvalidPasswordLength => "invalid_password_length";
         public static string InvalidOperation => "invalid_operation";
         public static string InvalidToDate => "invalid_to_date";
+        public static string AlreadyExists => "already_exists";
     }
 }

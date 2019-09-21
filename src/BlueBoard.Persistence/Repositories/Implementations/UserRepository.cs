@@ -31,5 +31,10 @@ namespace BlueBoard.Persistence.Repositories
                                   i.Status != UserStatus.Removed)
                 .FirstOrDefaultAsync();
         }
+
+        public Task<bool> ExistsByEmailAsync(string email)
+        {
+            return Set.Where(i => i.Email == email).AnyAsync();
+        }
     }
 }

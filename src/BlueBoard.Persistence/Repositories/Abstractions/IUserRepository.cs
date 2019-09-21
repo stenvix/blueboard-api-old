@@ -10,5 +10,6 @@ namespace BlueBoard.Persistence.Repositories
         Task<User> GetByEmailAsync(string email);
         Task<User> GetWithStatusAsync(Guid userId, UserStatus status);
         Task<User> GetActiveAsync(Guid userId);
+        Task<bool> ExistsByEmailAsync(string email);
     }
 }

@@ -16,6 +16,7 @@ namespace BlueBoard.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IList<CountryModel>), StatusCodes.Status200OK)]
-        public Task<IList<CountryModel>> GetAllAsync() => Mediator.Send(new GetCountriesQuery());
+        public Task<IList<CountryModel>> GetAllAsync()
+            => Mediator.Send(new GetCountriesQuery());
     }
 }
