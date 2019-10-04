@@ -38,7 +38,7 @@ namespace BlueBoard.Persistence.Repositories
 
         public virtual Task<TEntity> GetAsync(TKey id)
         {
-            return Set.FindAsync(id);
+            return Set.FindAsync(id).AsTask();
         }
 
         public virtual Task CreateAsync(TEntity entity)

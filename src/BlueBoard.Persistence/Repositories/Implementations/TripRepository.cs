@@ -11,6 +11,7 @@ namespace BlueBoard.Persistence.Repositories
     public class TripRepository : BaseRepository<Trip, Guid>, ITripRepository
     {
         private static readonly TripStatus[] _activeStatuses = { TripStatus.Current, TripStatus.Future };
+
         public TripRepository(BlueBoardContext context) : base(context)
         {
         }

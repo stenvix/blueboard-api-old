@@ -6,16 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Npgsql;
 using System;
-using System.Data.Common;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BlueBoard.API.Infrastructure
 {
@@ -52,16 +46,12 @@ namespace BlueBoard.API.Infrastructure
             Task.Run(async () =>
             {
                 await Task.Delay(TimeSpan.FromSeconds(5));
-                using (var scope = builder.ApplicationServices.CreateScope())
-                {
-                    using (var context = scope.ServiceProvider.GetService<BlueBoardContext>())
-                    {
-                        var migrations = context.Database.GetPendingMigrations();
-                        if (migrations.Any()) context.Database.Migrate();
-                        var seeder = scope.ServiceProvider.GetService<DataSeeder>();
-                        await seeder.SeedAsync();
-                    }
-                }
+                using var scope = builder.ApplicationServices.CreateScope();
+                await using var context = scope.ServiceProvider.GetService<BlueBoardContext>();
+                var migrations = context.Database.GetPendingMigrations();
+                if (migrations.Any()) context.Database.Migrate();
+                var seeder = scope.ServiceProvider.GetService<DataSeeder>();
+                await seeder.SeedAsync();
             });
         }
     }
