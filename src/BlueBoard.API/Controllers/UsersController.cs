@@ -20,19 +20,19 @@ namespace BlueBoard.API.Controllers
         {
         }
 
-        [HttpGet("/api/v1/me")]
+        [HttpGet("/api/v1/Me")]
         [ProducesResponseType(typeof(SlimUserModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ExceptionModel), StatusCodes.Status400BadRequest)]
         public Task<UserModel> GetCurrentUserAsync()
             => Mediator.Send(new GetCurrentUserQuery());
 
-        [HttpPut("/api/v1/me")]
+        [HttpPut("/api/v1/Me")]
         [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ExceptionModel), StatusCodes.Status400BadRequest)]
         public Task UpdateCurrentUserAsync([FromBody] UpdateUserCommand command)
             => Mediator.Send(command);
 
-        [HttpPut("/api/v1/me/setup")]
+        [HttpPut("/api/v1/Me/Setup")]
         [ProducesResponseType(typeof(void), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ExceptionModel), StatusCodes.Status400BadRequest)]
         public Task InitialSetupAsync([FromBody] SetupUserCommand command)

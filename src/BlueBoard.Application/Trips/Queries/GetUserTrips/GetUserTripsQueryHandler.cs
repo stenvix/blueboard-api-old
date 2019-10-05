@@ -9,7 +9,7 @@ using BlueBoard.Application.Infrastructure;
 
 namespace BlueBoard.Application.Trips.Queries.GetUserTrips
 {
-    public class GetUserTripsQueryHandler : BaseHandler<GetUserTripsQuery, IList<TripSlimModel>>
+    public class GetUserTripsQueryHandler : BaseHandler<GetUserTripsQuery, IList<SlimTripModel>>
     {
         private readonly ICurrentUserProvider _currentUserProvider;
         private readonly ITripRepository _tripRepository;
@@ -20,10 +20,10 @@ namespace BlueBoard.Application.Trips.Queries.GetUserTrips
             _tripRepository = unitOfWork.GetRepository<ITripRepository>();
         }
 
-        protected override async Task<IList<TripSlimModel>> Handle(GetUserTripsQuery request, IUnitOfWork unitOfWork, CancellationToken cancellationToken)
+        protected override async Task<IList<SlimTripModel>> Handle(GetUserTripsQuery request, IUnitOfWork unitOfWork, CancellationToken cancellationToken)
         {
             var entities = await _tripRepository.GetForUserAsync(_currentUserProvider.UserId);
-            return Mapper.Map<IList<TripSlimModel>>(entities);
+            return Mapper.Map<IList<SlimTripModel>>(entities);
         }
     }
 }
