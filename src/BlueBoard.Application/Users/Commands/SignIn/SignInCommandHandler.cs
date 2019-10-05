@@ -28,9 +28,10 @@ namespace BlueBoard.Application.Users.Commands.SignIn
         protected override async Task<AuthTokenModel> Handle(SignInCommand request, IUnitOfWork unitOfWork, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByEmailOrUsernameAsync(request.Login);
-            if (user == null || user.Status == UserStatus.Removed) throw new AuthException(Codes.InvalidCredentials);
-
-            if (!_authHandler.ValidatePassword(request.Password, user.Password)) throw new AuthException(Codes.InvalidCredentials);
+            if (user == null || user.Status == UserStatus.Removed || !_authHandler.ValidatePassword(request.Password, user.Password))
+            {
+                throw new AuthException(Codes.InvalidCredentials);
+            }
 
             return _authHandler.CreateAuthToken(user.Id);
         }
