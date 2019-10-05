@@ -23,6 +23,11 @@ namespace BlueBoard.Application.Users.Commands.Update
         public string Email { get; set; }
 
         /// <summary>
+        /// Gets or sets username
+        /// </summary>
+        public string Username { get; set; }
+
+        /// <summary>
         /// Gets or sets user phone number
         /// </summary>
         public string Phone { get; set; }

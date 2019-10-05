@@ -11,6 +11,7 @@ namespace BlueBoard.Persistence.Configurations
             builder.HasKey(i => i.Id);
             builder.Property(i => i.Email).IsRequired();
             builder.Property(i => i.Password).IsRequired();
+            builder.HasIndex(i => i.Username).IsUnique();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace BlueBoard.Application.Users.Commands.Setup
     {
         public SetupUserCommandValidator()
         {
-            Include(new UserNameInfoValidator());
+            Include(new UserInfoValidator());
         }
     }
 }

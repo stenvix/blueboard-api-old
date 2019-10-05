@@ -13,6 +13,11 @@
         public string LastName { get; set; }
 
         /// <summary>
+        /// Gets or sets username
+        /// </summary>
+        public string Username { get; set; }
+
+        /// <summary>
         /// Gets or sets user avatar
         /// </summary>
         public string Avatar { get; set; }

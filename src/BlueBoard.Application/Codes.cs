@@ -11,6 +11,8 @@
         public static string EmptyPhone => "empty_phone";
         public static string EmptyPassword => "empty_password";
         public static string EmptyCountry => "empty_country";
+        public static string EmptyLogin => "empty_login";
+        public static string EmptyUsername => "empty_username";
 
         public static string InvalidId => "invalid_id";
         public static string InvalidData => "invalid_data";
@@ -23,6 +25,8 @@
         public static string InvalidPasswordLength => "invalid_password_length";
         public static string InvalidOperation => "invalid_operation";
         public static string InvalidToDate => "invalid_to_date";
+        public static string InvalidLogin => "invalid_login";
+        public static string InvalidUsername => "invalid_username";
         public static string AlreadyExists => "already_exists";
     }
 }
