@@ -2,11 +2,11 @@
 using MediatR;
 using System;
 
-namespace BlueBoard.Application.Participants.Commands.Add
+namespace BlueBoard.Application.Participants.Commands.Invite
 {
-    public class AddParticipantCommand : IRequest<Guid>
+    public class InviteParticipantCommand : IRequest<Guid>
     {
-        public string Email { get; set; }
+        public string Username { get; set; }
         public Guid TripId { get; set; }
         public ParticipantRole Role { get; set; } = ParticipantRole.Reader;
     }

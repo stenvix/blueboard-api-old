@@ -55,7 +55,7 @@ namespace BlueBoard.Persistence.Repositories
 
         public virtual async Task DeleteAsync(TKey id)
         {
-            var entity = await Set.FindAsync();
+            var entity = await Set.FindAsync(id);
             if (entity == null) throw new ArgumentNullException(nameof(entity), $"Entity {id} not found");
             Set.Remove(entity);
         }
