@@ -9,7 +9,7 @@ namespace BlueBoard.Application.Trips.Models
     {
         public TripProfile()
         {
-            CreateMap<Trip, TripSlimModel>()
+            CreateMap<Trip, SlimTripModel>()
                 .ForMember(dest => dest.Countries, src => src.MapFrom(i => string.Join(", ", i.Countries.Select(c => c.Country.Name))));
             CreateMap<Trip, TripModel>();
 

@@ -2,7 +2,7 @@
 
 namespace BlueBoard.Application.Trips.Models
 {
-    public class TripSlimModel : BaseModel
+    public class SlimTripModel : BaseModel
     {
         public string Name { get; set; }
         public string Description { get; set; }

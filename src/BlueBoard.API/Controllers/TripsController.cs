@@ -23,8 +23,8 @@ namespace BlueBoard.API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(IList<TripSlimModel>), StatusCodes.Status200OK)]
-        public Task<IList<TripSlimModel>> GetUserTripsAsync()
+        [ProducesResponseType(typeof(IList<SlimTripModel>), StatusCodes.Status200OK)]
+        public Task<IList<SlimTripModel>> GetUserTripsAsync()
             => Mediator.Send(new GetUserTripsQuery());
 
         [HttpGet("{id}")]
@@ -32,8 +32,8 @@ namespace BlueBoard.API.Controllers
             => Mediator.Send(new GetTripQuery(id));
 
         [HttpGet("search")]
-        [ProducesResponseType(typeof(IList<TripSlimModel>), StatusCodes.Status200OK)]
-        public Task<IList<TripSlimModel>> SearchTripsAsync([FromQuery]string query, [FromQuery]DateTime? fromDate, [FromQuery]DateTime? toDate)
+        [ProducesResponseType(typeof(IList<SlimTripModel>), StatusCodes.Status200OK)]
+        public Task<IList<SlimTripModel>> SearchTripsAsync([FromQuery]string query, [FromQuery]DateTime? fromDate, [FromQuery]DateTime? toDate)
             => Mediator.Send(new SearchTripQuery { Query = query, FromDate = fromDate, ToDate = toDate });
 
         [HttpGet("{id}/participants")]

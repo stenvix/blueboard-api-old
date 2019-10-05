@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BlueBoard.Application.Trips.Queries.SearchTrips
 {
-    public class SearchTripQueryHandler : BaseHandler<SearchTripQuery, IList<TripSlimModel>>
+    public class SearchTripQueryHandler : BaseHandler<SearchTripQuery, IList<SlimTripModel>>
     {
         private readonly ICurrentUserProvider _currentUserProvider;
         private readonly ITripRepository _tripRepository;
@@ -21,7 +21,7 @@ namespace BlueBoard.Application.Trips.Queries.SearchTrips
             _tripRepository = unitOfWork.GetRepository<ITripRepository>();
         }
 
-        protected override async Task<IList<TripSlimModel>> Handle(SearchTripQuery request, IUnitOfWork unitOfWork, CancellationToken cancellationToken)
+        protected override async Task<IList<SlimTripModel>> Handle(SearchTripQuery request, IUnitOfWork unitOfWork, CancellationToken cancellationToken)
         {
             IList<Trip> entities;
             if (string.IsNullOrEmpty(request.Query) && !request.FromDate.HasValue && !request.ToDate.HasValue)
@@ -33,7 +33,7 @@ namespace BlueBoard.Application.Trips.Queries.SearchTrips
                 entities = await _tripRepository.SearchForUserAsync(_currentUserProvider.UserId, request.Query, request.FromDate, request.ToDate);
             }
 
-            return Mapper.Map<IList<TripSlimModel>>(entities);
+            return Mapper.Map<IList<SlimTripModel>>(entities);
         }
     }
 }
