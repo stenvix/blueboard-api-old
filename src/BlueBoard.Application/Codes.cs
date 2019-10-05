@@ -27,6 +27,7 @@
         public static string InvalidToDate => "invalid_to_date";
         public static string InvalidLogin => "invalid_login";
         public static string InvalidUsername => "invalid_username";
+        public static string InvalidQuery => "invalid_query";
         public static string AlreadyExists => "already_exists";
     }
 }

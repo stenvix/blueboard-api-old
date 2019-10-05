@@ -2,6 +2,7 @@
 using BlueBoard.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,6 +41,25 @@ namespace BlueBoard.Persistence.Repositories
         public Task<bool> ExistsByEmailAsync(string email)
         {
             return Set.Where(i => i.Email == email).AnyAsync();
+        }
+
+        public async Task<IList<User>> SearchAsync(string query, Guid currentUserId)
+        {
+            var entities = await Set.Where(i => (i.FirstName.Contains(query) ||
+                                          i.LastName.Contains(query) ||
+                                          i.Email.Contains(query) ||
+                                          i.Username.Contains(query)) &&
+                                                i.Id != currentUserId)
+                .Select(i => new User
+                {
+                    FirstName = i.FirstName,
+                    LastName = i.LastName,
+                    Username = i.Username,
+                    Avatar = i.Avatar
+                })
+                .ToListAsync();
+
+            return entities;
         }
     }
 }

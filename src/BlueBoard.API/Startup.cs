@@ -63,6 +63,7 @@ namespace BlueBoard.API
                     Type = SecuritySchemeType.ApiKey
                 });
                 config.OperationFilter<SecurityRequirementsOperationFilter>();
+                config.DocumentFilter<LowercaseDocumentFilter>();
             });
         }
 
