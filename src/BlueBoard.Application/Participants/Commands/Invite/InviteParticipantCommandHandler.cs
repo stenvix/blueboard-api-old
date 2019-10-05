@@ -8,16 +8,16 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BlueBoard.Application.Participants.Commands.Add
+namespace BlueBoard.Application.Participants.Commands.Invite
 {
-    public class AddParticipantCommandHandler : BaseHandler<AddParticipantCommand, Guid>
+    public class InviteParticipantCommandHandler : BaseHandler<InviteParticipantCommand, Guid>
     {
         private readonly ICurrentUserProvider _currentUserProvider;
         private readonly ITripRepository _tripRepository;
         private readonly IParticipantRepository _participantRepository;
         private readonly IUserRepository _userRepository;
 
-        public AddParticipantCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<AddParticipantCommandHandler> logger, ICurrentUserProvider currentUserProvider) : base(unitOfWork, mapper, logger)
+        public InviteParticipantCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, ILogger<InviteParticipantCommandHandler> logger, ICurrentUserProvider currentUserProvider) : base(unitOfWork, mapper, logger)
         {
             _currentUserProvider = currentUserProvider;
             _tripRepository = unitOfWork.GetRepository<ITripRepository>();
@@ -25,13 +25,13 @@ namespace BlueBoard.Application.Participants.Commands.Add
             _participantRepository = unitOfWork.GetRepository<IParticipantRepository>();
         }
 
-        protected override async Task<Guid> Handle(AddParticipantCommand request, IUnitOfWork unitOfWork, CancellationToken cancellationToken)
+        protected override async Task<Guid> Handle(InviteParticipantCommand request, IUnitOfWork unitOfWork, CancellationToken cancellationToken)
         {
             var hasAccess = await _tripRepository.HasAccessAsync(request.TripId, _currentUserProvider.UserId);
             if (!hasAccess) throw new AuthException(Codes.HasNoPermissions);
 
-            var user = await _userRepository.GetByEmailAsync(request.Email);
-            if (user == null) throw new ValidationException(Codes.InvalidEmail);
+            var user = await _userRepository.GetByUsernameAsync(request.Username);
+            if (user == null) throw new ValidationException(Codes.InvalidUsername);
             if (user.Id == _currentUserProvider.UserId) throw new ValidationException(Codes.InvalidOperation);
 
             var exists = await _participantRepository.ExistsAsync(user.Id, request.TripId);

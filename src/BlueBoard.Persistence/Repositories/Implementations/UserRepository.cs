@@ -19,6 +19,11 @@ namespace BlueBoard.Persistence.Repositories
             return Set.FirstOrDefaultAsync(i => i.Email == email);
         }
 
+        public Task<User> GetByUsernameAsync(string username)
+        {
+            return Set.FirstOrDefaultAsync(i => i.Username == username);
+        }
+
         public Task<User> GetByEmailOrUsernameAsync(string login)
         {
             return Set.FirstOrDefaultAsync(i => i.Email == login || i.Username == login);

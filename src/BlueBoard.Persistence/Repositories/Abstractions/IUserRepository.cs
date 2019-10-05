@@ -9,6 +9,7 @@ namespace BlueBoard.Persistence.Repositories
     public interface IUserRepository : IRepository<User, Guid>
     {
         Task<User> GetByEmailAsync(string email);
+        Task<User> GetByUsernameAsync(string username);
         Task<User> GetByEmailOrUsernameAsync(string login);
         Task<User> GetWithStatusAsync(Guid userId, UserStatus status);
         Task<User> GetActiveAsync(Guid userId);

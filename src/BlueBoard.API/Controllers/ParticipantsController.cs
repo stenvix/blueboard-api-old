@@ -1,4 +1,4 @@
-﻿using BlueBoard.Application.Participants.Commands.Add;
+﻿using BlueBoard.Application.Participants.Commands.Invite;
 using BlueBoard.Application.Participants.Commands.Remove;
 using BlueBoard.Application.Participants.Queries.SearchParticipants;
 using BlueBoard.Application.Users.Models;
@@ -26,9 +26,9 @@ namespace BlueBoard.API.Controllers
 
         #endregion
 
-        [HttpPost]
+        [HttpPost("invite")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        public Task<Guid> AddParticipantAsync([FromBody] AddParticipantCommand command)
+        public Task<Guid> InviteParticipantAsync([FromBody] InviteParticipantCommand command)
             => Mediator.Send(command);
 
         [HttpDelete("{id}")]

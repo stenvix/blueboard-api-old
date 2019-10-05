@@ -8,7 +8,7 @@ namespace BlueBoard.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Participant> builder)
         {
-            builder.HasKey(i => new { i.UserId, i.TripId });
+            builder.HasKey(i => i.Id);
             builder.HasOne(i => i.User)
                 .WithMany()
                 .HasForeignKey(i => i.UserId)

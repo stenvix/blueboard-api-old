@@ -66,14 +66,14 @@ namespace BlueBoard.Persistence.Migrations
                 name: "Participants",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(nullable: false),
-                    TripId = table.Column<Guid>(nullable: false),
                     Id = table.Column<Guid>(nullable: false),
-                    Role = table.Column<int>(nullable: false)
+                    Role = table.Column<int>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
+                    TripId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Participants", x => new { x.UserId, x.TripId });
+                    table.PrimaryKey("PK_Participants", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Participants_Trips_TripId",
                         column: x => x.TripId,
@@ -122,6 +122,11 @@ namespace BlueBoard.Persistence.Migrations
                 name: "IX_Participants_TripId",
                 table: "Participants",
                 column: "TripId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Participants_UserId",
+                table: "Participants",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TripCountries_CountryId",
