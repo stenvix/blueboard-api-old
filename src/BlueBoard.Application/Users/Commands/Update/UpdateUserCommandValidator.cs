@@ -8,10 +8,10 @@ namespace BlueBoard.Application.Users.Commands.Update
     {
         public UpdateUserCommandValidator()
         {
-            Include(new UserNameInfoValidator());
-            Include(new UserCredentialsValidator());
-
+            Include(new UserInfoValidator());
             this.ValidatePhone(i => i.Phone, command => !string.IsNullOrEmpty(command.Phone));
+            this.ValidateEmail(i => i.Email, command => !string.IsNullOrEmpty(command.Email));
+            this.ValidatePassword(i => i.Password, i => !string.IsNullOrEmpty(i.Password));
         }
     }
 }

@@ -15,10 +15,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.IO;
 using System.Reflection;
-using Swashbuckle.AspNetCore.Filters;
 
 namespace BlueBoard.API
 {
@@ -57,9 +57,8 @@ namespace BlueBoard.API
                 config.IncludeXmlComments(xmlPath);
                 config.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
-                    Description = "Standard Authorization header using the Bearer scheme.",
+                    Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
                     In = ParameterLocation.Header,
-                    BearerFormat = "Bearer ",
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey
                 });

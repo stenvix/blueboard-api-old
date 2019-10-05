@@ -10,27 +10,30 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BlueBoard.Persistence.Migrations
 {
     [DbContext(typeof(BlueBoardContext))]
-    [Migration("20190827124807_20190827")]
-    partial class _20190827
+    [Migration("20191005054910_20191005")]
+    partial class _20191005
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
+                .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("BlueBoard.Domain.Country", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Iso")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -42,13 +45,17 @@ namespace BlueBoard.Persistence.Migrations
 
             modelBuilder.Entity("BlueBoard.Domain.Participant", b =>
                 {
-                    b.Property<Guid>("UserId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
-                    b.Property<Guid>("TripId");
+                    b.Property<Guid>("TripId")
+                        .HasColumnType("uuid");
 
-                    b.Property<Guid>("Id");
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("Role");
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
 
                     b.HasKey("UserId", "TripId");
 
@@ -60,19 +67,26 @@ namespace BlueBoard.Persistence.Migrations
             modelBuilder.Entity("BlueBoard.Domain.Trip", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
-                    b.Property<Guid>("CreatedById");
+                    b.Property<Guid>("CreatedById")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
 
-                    b.Property<DateTime>("EndDate");
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
 
-                    b.Property<DateTime>("StartDate");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("Status");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -83,9 +97,11 @@ namespace BlueBoard.Persistence.Migrations
 
             modelBuilder.Entity("BlueBoard.Domain.TripCountry", b =>
                 {
-                    b.Property<Guid>("TripId");
+                    b.Property<Guid>("TripId")
+                        .HasColumnType("uuid");
 
-                    b.Property<Guid>("CountryId");
+                    b.Property<Guid>("CountryId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("TripId", "CountryId");
 
@@ -97,25 +113,39 @@ namespace BlueBoard.Persistence.Migrations
             modelBuilder.Entity("BlueBoard.Domain.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("Avatar");
+                    b.Property<string>("Avatar")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
 
                     b.Property<string>("Password")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<string>("Phone");
+                    b.Property<string>("Phone")
+                        .HasColumnType("text");
 
-                    b.Property<int>("Status");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -125,12 +155,14 @@ namespace BlueBoard.Persistence.Migrations
                     b.HasOne("BlueBoard.Domain.Trip", "Trip")
                         .WithMany("Participants")
                         .HasForeignKey("TripId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("BlueBoard.Domain.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BlueBoard.Domain.Trip", b =>
@@ -138,7 +170,8 @@ namespace BlueBoard.Persistence.Migrations
                     b.HasOne("BlueBoard.Domain.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BlueBoard.Domain.TripCountry", b =>
@@ -146,12 +179,14 @@ namespace BlueBoard.Persistence.Migrations
                     b.HasOne("BlueBoard.Domain.Country", "Country")
                         .WithMany()
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BlueBoard.Domain.Trip", "Trip")
                         .WithMany("Countries")
                         .HasForeignKey("TripId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -3,10 +3,14 @@ using FluentValidation;
 
 namespace BlueBoard.Application.Users.Base
 {
-    public class UserNameInfoValidator : AbstractValidator<IUserNameInfo>
+    public class UserInfoValidator : AbstractValidator<IUserNameInfo>
     {
-        public UserNameInfoValidator()
+        public UserInfoValidator()
         {
+            RuleFor(i => i.Username)
+                .NotEmpty().WithErrorCode(Codes.EmptyUsername)
+                .SetValidator(new UsernameValidator());
+
             RuleFor(i => i.FirstName)
                 .NotEmpty().WithErrorCode(Codes.EmptyFirstName);
 

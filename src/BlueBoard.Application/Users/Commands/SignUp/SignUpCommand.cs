@@ -1,5 +1,4 @@
 ﻿using BlueBoard.Application.Users.Base;
-using BlueBoard.Application.Users.Common;
 using BlueBoard.Application.Users.Models;
 using MediatR;
 

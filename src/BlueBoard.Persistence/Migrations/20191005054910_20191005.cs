@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BlueBoard.Persistence.Migrations
 {
-    public partial class _20190827 : Migration
+    public partial class _20191005 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,6 +27,7 @@ namespace BlueBoard.Persistence.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: false),
                     Phone = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: false),
@@ -131,6 +132,12 @@ namespace BlueBoard.Persistence.Migrations
                 name: "IX_Trips_CreatedById",
                 table: "Trips",
                 column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Username",
+                table: "Users",
+                column: "Username",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

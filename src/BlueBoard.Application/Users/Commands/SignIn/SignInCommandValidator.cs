@@ -1,5 +1,7 @@
-﻿using BlueBoard.Application.Users.Base;
+﻿using BlueBoard.Application.Common;
+using BlueBoard.Application.Users.Base;
 using FluentValidation;
+using FluentValidation.Validators;
 
 namespace BlueBoard.Application.Users.Commands.SignIn
 {
@@ -13,7 +15,21 @@ namespace BlueBoard.Application.Users.Commands.SignIn
         /// </summary>
         public SignInValidator()
         {
-            Include(new UserCredentialsValidator());
+            RuleFor(i => i.Login)
+                .NotEmpty()
+                .WithErrorCode(Codes.EmptyLogin);
+
+            RuleFor(i => i.Login)
+                .SetValidator(new EmailValidator())
+                .When(i => i.Login.Contains('@'))
+                .WithErrorCode(Codes.InvalidLogin);
+
+            RuleFor(i => i.Login)
+                .SetValidator(new UsernameValidator())
+                .When(i => !i.Login.Contains("@"))
+                .WithErrorCode(Codes.InvalidLogin);
+
+            this.ValidatePassword(i => i.Password);
         }
     }
 }

@@ -37,7 +37,7 @@ namespace BlueBoard.Application.Users.Commands.Update
             Mapper.Map(request, entity);
             if (!string.IsNullOrEmpty(request.Password))
             {
-                entity.Password = _authHandler.GetPasswordHash(entity.Password);
+                entity.Password = _authHandler.GetPasswordHash(request.Password);
             }
 
             await _userRepository.UpdateAsync(entity);

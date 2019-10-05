@@ -1,9 +1,9 @@
-﻿using BlueBoard.Domain;
+﻿using BlueBoard.Common.Enums;
+using BlueBoard.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using BlueBoard.Common.Enums;
 
 namespace BlueBoard.Persistence.Repositories
 {
@@ -16,6 +16,11 @@ namespace BlueBoard.Persistence.Repositories
         public Task<User> GetByEmailAsync(string email)
         {
             return Set.FirstOrDefaultAsync(i => i.Email == email);
+        }
+
+        public Task<User> GetByEmailOrUsernameAsync(string login)
+        {
+            return Set.FirstOrDefaultAsync(i => i.Email == login || i.Username == login);
         }
 
         public Task<User> GetWithStatusAsync(Guid userId, UserStatus status)
