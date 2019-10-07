@@ -21,12 +21,12 @@ namespace BlueBoard.Application.Users.Commands.SignIn
 
             RuleFor(i => i.Login)
                 .SetValidator(new EmailValidator())
-                .When(i => i.Login.Contains('@'))
+                .When(i => !string.IsNullOrEmpty(i.Login) && i.Login.Contains('@'))
                 .WithErrorCode(Codes.InvalidLogin);
 
             RuleFor(i => i.Login)
                 .SetValidator(new UsernameValidator())
-                .When(i => !i.Login.Contains("@"))
+                .When(i => !string.IsNullOrEmpty(i.Login) && !i.Login.Contains("@"))
                 .WithErrorCode(Codes.InvalidLogin);
 
             this.ValidatePassword(i => i.Password);
