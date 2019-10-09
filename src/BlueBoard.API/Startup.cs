@@ -45,7 +45,8 @@ namespace BlueBoard.API
             services.AddScoped<DataSeeder>();
             services.AddSingleton<IAuthHandler, AuthHandler>();
             services.AddControllers(config => config.Filters.Add(typeof(BlueBoardExceptionFilter)))
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddNewtonsoftJson();
             services.AddHttpContextAccessor();
             services.AddAutoMapper(applicationAssembly);
             services.AddJwt(Configuration);
