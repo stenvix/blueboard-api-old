@@ -7,6 +7,9 @@ namespace BlueBoard.Application.Participants.Models
     {
         public ParticipantProfile()
         {
+            CreateMap<User, ParticipantModel>();
+            CreateMap<User, ParticipantSearchModel>();
+
             CreateMap<Participant, ParticipantModel>()
                 .ForMember(dest => dest.FirstName, src => src.MapFrom(i => i.User.FirstName))
                 .ForMember(dest => dest.LastName, src => src.MapFrom(i => i.User.LastName))

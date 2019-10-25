@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BlueBoard.Domain
+﻿namespace BlueBoard.Domain
 {
     /// <summary>
     /// Base interface for entities

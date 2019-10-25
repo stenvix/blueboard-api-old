@@ -1,15 +1,8 @@
-﻿using FluentValidation;
-using System;
+﻿using BlueBoard.Application.Participants.Commands.Base.Validators;
 
 namespace BlueBoard.Application.Participants.Commands.Remove
 {
-    public class RemoveParticipantCommandValidator : AbstractValidator<RemoveParticipantCommand>
+    public class RemoveParticipantCommandValidator : BaseParticipantCommandValidator<RemoveParticipantCommand>
     {
-        public RemoveParticipantCommandValidator()
-        {
-            RuleFor(i => i.Id)
-                .NotEqual(Guid.Empty)
-                .WithErrorCode(Codes.InvalidId);
-        }
     }
 }

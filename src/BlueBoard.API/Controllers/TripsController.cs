@@ -22,6 +22,8 @@ namespace BlueBoard.API.Controllers
         {
         }
 
+        #region GET
+
         [HttpGet]
         [ProducesResponseType(typeof(IList<SlimTripModel>), StatusCodes.Status200OK)]
         public Task<IList<SlimTripModel>> GetUserTripsAsync()
@@ -40,6 +42,8 @@ namespace BlueBoard.API.Controllers
         [ProducesResponseType(typeof(IList<ParticipantModel>), StatusCodes.Status200OK)]
         public Task<IList<ParticipantModel>> GetTripParticipantsAsync([FromRoute] Guid id)
             => Mediator.Send(new GetTripParticipantQuery { TripId = id });
+        
+        #endregion
 
         [HttpPost]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]

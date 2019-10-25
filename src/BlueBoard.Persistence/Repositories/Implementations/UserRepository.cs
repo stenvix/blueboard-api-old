@@ -54,9 +54,11 @@ namespace BlueBoard.Persistence.Repositories
                                           i.LastName.Contains(query) ||
                                           i.Email.Contains(query) ||
                                           i.Username.Contains(query)) &&
-                                                i.Id != currentUserId)
+                                                i.Id != currentUserId &&
+                                                i.Status == UserStatus.Verified)
                 .Select(i => new User
                 {
+                    Id = i.Id,
                     FirstName = i.FirstName,
                     LastName = i.LastName,
                     Username = i.Username,

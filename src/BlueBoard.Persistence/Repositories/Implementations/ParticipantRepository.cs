@@ -21,6 +21,18 @@ namespace BlueBoard.Persistence.Repositories
             return entities;
         }
 
+        public async Task<IList<Participant>> GetForSearchAsync(Guid tripId)
+        {
+            var entities = await Set.Where(i => i.TripId == tripId).ToListAsync();
+            return entities;
+        }
+
+        public Task<Participant> GetForTripAsync(Guid tripId, string username)
+        {
+            return Set.Where(i => i.TripId == tripId && i.User.Username == username)
+                .FirstOrDefaultAsync();
+        }
+
         public Task<bool> ExistsAsync(Guid userId, Guid tripId)
         {
             return Set.Where(i => i.TripId == tripId && i.UserId == userId).AnyAsync();

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using System;
 
 namespace BlueBoard.Application.Participants.Queries.SearchParticipants
 {
@@ -9,6 +10,10 @@ namespace BlueBoard.Application.Participants.Queries.SearchParticipants
             RuleFor(i => i.Query)
                 .NotEmpty()
                 .WithErrorCode(Codes.InvalidQuery);
+
+            RuleFor(i => i.TripId)
+                .NotEqual(Guid.Empty)
+                .WithErrorCode(Codes.EmptyTripId);
         }
     }
 }

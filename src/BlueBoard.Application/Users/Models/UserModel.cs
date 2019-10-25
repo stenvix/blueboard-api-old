@@ -2,7 +2,7 @@
 
 namespace BlueBoard.Application.Users.Models
 {
-    public class UserModel : SlimUserModel
+    public class UserModel : UserSlimModel
     {
         /// <summary>
         /// Gets or sets user email
