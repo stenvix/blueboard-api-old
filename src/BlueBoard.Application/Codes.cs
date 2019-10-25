@@ -13,6 +13,7 @@
         public static string EmptyCountry => "empty_country";
         public static string EmptyLogin => "empty_login";
         public static string EmptyUsername => "empty_username";
+        public static string EmptyTripId => "empty_trip_id";
 
         public static string InvalidId => "invalid_id";
         public static string InvalidData => "invalid_data";

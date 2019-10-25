@@ -21,7 +21,7 @@ namespace BlueBoard.API.Controllers
         }
 
         [HttpGet("/api/v1/Me")]
-        [ProducesResponseType(typeof(SlimUserModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserSlimModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ExceptionModel), StatusCodes.Status400BadRequest)]
         public Task<UserModel> GetCurrentUserAsync()
             => Mediator.Send(new GetCurrentUserQuery());

@@ -6,9 +6,11 @@ namespace BlueBoard.Domain
     /// <summary>
     /// Participant entity
     /// </summary>
-    public class Participant: BaseEntity
+    public class Participant : BaseEntity
     {
         public ParticipantRole Role { get; set; }
+        public ParticipantStatus Status { get; set; }
+
 
         public Guid UserId { get; set; }
         public Guid TripId { get; set; }

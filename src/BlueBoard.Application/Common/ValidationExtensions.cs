@@ -2,7 +2,6 @@
 using FluentValidation.Validators;
 using System;
 using System.Linq.Expressions;
-using BlueBoard.Application.Users.Base;
 
 namespace BlueBoard.Application.Common
 {

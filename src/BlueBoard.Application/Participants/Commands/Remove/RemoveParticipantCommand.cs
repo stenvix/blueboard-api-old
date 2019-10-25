@@ -1,10 +1,8 @@
-﻿using MediatR;
-using System;
+﻿using BlueBoard.Application.Participants.Commands.Base.Abstractions;
 
 namespace BlueBoard.Application.Participants.Commands.Remove
 {
-    public class RemoveParticipantCommand : IRequest
+    public class RemoveParticipantCommand : BaseParticipantCommand
     {
-        public Guid Id { get; set; }
     }
 }

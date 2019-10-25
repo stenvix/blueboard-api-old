@@ -1,6 +1,6 @@
 ﻿namespace BlueBoard.Application.Users.Models
 {
-    public class SlimUserModel
+    public class UserSlimModel
     {
         /// <summary>
         /// Gets or sets user first name

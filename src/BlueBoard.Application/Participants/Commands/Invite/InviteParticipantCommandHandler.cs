@@ -1,16 +1,17 @@
 ﻿using AutoMapper;
 using BlueBoard.Application.Exceptions;
 using BlueBoard.Application.Infrastructure;
+using BlueBoard.Common.Enums;
 using BlueBoard.Domain;
 using BlueBoard.Persistence.Repositories;
+using MediatR;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace BlueBoard.Application.Participants.Commands.Invite
 {
-    public class InviteParticipantCommandHandler : BaseHandler<InviteParticipantCommand, Guid>
+    public class InviteParticipantCommandHandler : BaseHandler<InviteParticipantCommand, Unit>
     {
         private readonly ICurrentUserProvider _currentUserProvider;
         private readonly ITripRepository _tripRepository;
@@ -25,7 +26,7 @@ namespace BlueBoard.Application.Participants.Commands.Invite
             _participantRepository = unitOfWork.GetRepository<IParticipantRepository>();
         }
 
-        protected override async Task<Guid> Handle(InviteParticipantCommand request, IUnitOfWork unitOfWork, CancellationToken cancellationToken)
+        protected override async Task<Unit> Handle(InviteParticipantCommand request, IUnitOfWork unitOfWork, CancellationToken cancellationToken)
         {
             var hasAccess = await _tripRepository.HasAccessAsync(request.TripId, _currentUserProvider.UserId);
             if (!hasAccess) throw new AuthException(Codes.HasNoPermissions);
@@ -37,10 +38,10 @@ namespace BlueBoard.Application.Participants.Commands.Invite
             var exists = await _participantRepository.ExistsAsync(user.Id, request.TripId);
             if (exists) throw new ValidationException(Codes.AlreadyExists);
 
-            var entity = new Participant { TripId = request.TripId, UserId = user.Id, Role = request.Role };
+            var entity = new Participant { TripId = request.TripId, UserId = user.Id, Role = request.Role, Status = ParticipantStatus.Invited };
             await _participantRepository.CreateAsync(entity);
             await unitOfWork.SaveChangesAsync();
-            return entity.Id;
+            return Unit.Value;
         }
     }
 }
